@@ -59,7 +59,7 @@ function getDifferentColorNeighbors(row, column, board, color) {
     return slotsToTake;
 }
 
-function getSlotsByType(board, slotType) {
+export function getSlotsByType(board, slotType) {
     const slotsByType = [];
     board.forEach((row, rowIndex) => row.forEach((column, columnIndex) => {
         if (column === slotType) {
@@ -108,6 +108,6 @@ export function makeAIMove(board) {
 }
 
 export function isGameOver(board) {
-    return getSlotsByType(board, 'none').length < 1;
+    return getSlotsByType(board, 'none').length < 1 && getSlotsByType(board, 'selectable').length < 1;
 }
 

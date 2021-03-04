@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {buildBoard, selectSlot, makeAIMove, isGameOver, canPlayerMove} from './../conquest';
 import {COLORS} from './../constants';
+import Status from './Status';
 
 const Board = () => {
     const [gameBoard, setGameBoard] = useState(buildBoard());
@@ -46,9 +47,7 @@ const Board = () => {
                     })
                 }
             </View>
-            <View>
-                <Text>{gameOver ? 'Game Over' : ''}</Text>
-            </View>
+            <Status board={gameBoard} gameOver={gameOver} />
         </View>
     );
 }
