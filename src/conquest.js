@@ -59,6 +59,16 @@ function getDifferentColorNeighbors(row, column, board, color) {
     return slotsToTake;
 }
 
+function getSlotsByType(board, slotType) {
+    const slotsByType = [];
+    board.forEach((row, rowIndex) => row.forEach((column, columnIndex) => {
+        if (column === slotType) {
+            slotsByType.push({y: rowIndex, x: columnIndex});
+        }
+    }))
+    return slotsByType;
+}
+
 export function selectSlot(row, column, board) {
     const newBoard = [...board].map(row => row.map(column => column === 'selectable' ? 'none' : column));
     if (board[row][column] == 'blue') {
@@ -66,13 +76,38 @@ export function selectSlot(row, column, board) {
         slotsToMove.forEach(slot => {
             newBoard[slot.y][slot.x] = 'selectable'
         })
+        return newBoard;
     }
     if (board[row][column] == 'selectable') {
         newBoard[row][column] = 'blue';
         getDifferentColorNeighbors(row, column, newBoard, 'blue').forEach(slot => {
             newBoard[slot.y][slot.x] = 'blue';
         });
+        return newBoard;
     }
+    return undefined;
+}
+
+export function canPlayerMove(board) {
+    return getSlotsByType(board, 'blue').map(slot => getMovableSlots(slot.y, slot.x, board)).flat().length > 0;
+}
+
+export function makeAIMove(board) {
+    const newBoard = [...board];
+    const aiSlots = getSlotsByType(board, 'red');
+    const moves = aiSlots.map(slot => getMovableSlots(slot.y, slot.x, board)).flat();
+    if (moves.length < 1) {
+        return newBoard;
+    }
+    const moveToMake = moves[Math.floor(Math.random() * moves.length)];
+    newBoard[moveToMake.y][moveToMake.x] = 'red';
+    getDifferentColorNeighbors(moveToMake.y, moveToMake.x, newBoard, 'red').forEach(slot => {
+        newBoard[slot.y][slot.x] = 'red';
+    });
     return newBoard;
+}
+
+export function isGameOver(board) {
+    return getSlotsByType(board, 'none').length < 1;
 }
 
