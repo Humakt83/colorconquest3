@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, ColorPropType} from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import {buildBoard} from './../conquest';
+import {buildBoard, selectSlot} from './../conquest';
 import {COLORS} from './../constants';
 
 const Board = () => {
-    const [board, setBoard] = useState(buildBoard());
+    const [gameBoard, setGameBoard] = useState(buildBoard());
 
     return (
         <View style={styles.container}>
             {
-                board.map((row, index) => {
+                gameBoard.map((row, index) => {
                     return (
                         <View style={styles.row} key={'row-' + index}>
                         {row.map((column, colIndex) => {
-                            const squareStyle = column === 1 ? styles.SquareBlue : column === -1 ? styles.SquareRed : styles.Square;
+                            const squareStyle = colorSquareMap[column];
                             return (
-                                <View style={squareStyle} key={'col-' + index + '-' + colIndex}/>
+                                <View style={squareStyle} key={'col-' + index + '-' + colIndex} onTouchStart={() => {                                    
+                                    const newBoard = selectSlot(index, colIndex, gameBoard);
+                                    if (!!newBoard) {
+                                        setGameBoard(newBoard);
+                                    }
+                                }}/>
                             )
                         })}
                         </View>
@@ -34,10 +39,11 @@ const Square = {
     borderColor: '#111111',
     borderWidth: 2,
     margin: 1
-}
+};
 
-const SquareBlue = Object.assign({}, Square, {backgroundColor: COLORS.blue})
-const SquareRed = Object.assign({}, Square, {backgroundColor: COLORS.red})
+const SquareBlue = Object.assign({}, Square, {backgroundColor: COLORS.blue});
+const SquareRed = Object.assign({}, Square, {backgroundColor: COLORS.red});
+const SquareSelectable = Object.assign({}, Square, {backgroundColor: COLORS.lightblue})
 
 const styles = StyleSheet.create({
     container: {
@@ -52,7 +58,10 @@ const styles = StyleSheet.create({
     },
     Square,
     SquareBlue,
-    SquareRed
+    SquareRed,
+    SquareSelectable
 });
+
+const colorSquareMap = {blue: styles.SquareBlue, red: styles.SquareRed, none: styles.Square, selectable: styles.SquareSelectable};
 
 export default Board;

@@ -6,16 +6,73 @@ export function buildBoard() {
     for (let y = 0; y < ROWS; y++) {
         const row = [];
         for (let x = 0; x < COLUMNS; x++) {
-            row.push(0);
+            row.push('none');
         }
         board.push(row);
     }
-    board[0][0] = 1;
-    board[1][0] = 1;
-    board[0][1] = 1;
-    board[9][9] = -1;
-    board[8][9] = -1;
-    board[9][8] = -1;
+    board[0][0] = 'blue';
+    board[1][0] = 'blue';
+    board[0][1] = 'blue';
+    board[ROWS-1][COLUMNS-1] = 'red';
+    board[ROWS-2][COLUMNS-1] = 'red';
+    board[ROWS-1][COLUMNS-2] = 'red';
     return board;
+}
+
+const isSlotPossible = (y, x) => y >= 0 && x >= 0 && x < COLUMNS && y < ROWS
+const isSlotOccupiedByEnemyOrFree = (y, x, board, color) => {
+    const slot = board[y][x]
+    return slot != 'selectable' && slot != color;
+}
+
+const isSlotFree = (y, x, board) => board[y][x] === 'none';
+
+function getMovableSlots(row, column, board) {
+    const slotsToMove = [];
+    const possibleRowModifiers = [-2, -1, 0, 1, 2];
+    const possibleColumnModifiers = [-2, -1, 0, 1, 2];
+    possibleRowModifiers.forEach(yModifier => {
+        possibleColumnModifiers.forEach(xModifier => {
+            const modifiedY = row + yModifier;
+            const modifiedX = column + xModifier;
+            if (isSlotPossible(modifiedY, modifiedX) && isSlotFree(modifiedY, modifiedX, board)) {
+                slotsToMove.push({y: row + yModifier, x: column + xModifier});
+            }
+        })
+    });
+    return slotsToMove;
+}
+
+function getDifferentColorNeighbors(row, column, board, color) {
+    const slotsToTake = []
+    const possibleRowModifiers = [-1, 0, 1];
+    const possibleColumnModifiers = [-1, 0, 1];
+    possibleRowModifiers.forEach(yModifier => {
+        possibleColumnModifiers.forEach(xModifier => {
+            const modifiedY = row + yModifier;
+            const modifiedX = column + xModifier;
+            if (isSlotPossible(modifiedY, modifiedX) && isSlotOccupiedByEnemyOrFree(modifiedY, modifiedX, board, color)) {
+                slotsToTake.push({y: row + yModifier, x: column + xModifier});
+            }
+        })
+    });
+    return slotsToTake;
+}
+
+export function selectSlot(row, column, board) {
+    const newBoard = [...board].map(row => row.map(column => column === 'selectable' ? 'none' : column));
+    if (board[row][column] == 'blue') {
+        const slotsToMove = getMovableSlots(row, column, newBoard);
+        slotsToMove.forEach(slot => {
+            newBoard[slot.y][slot.x] = 'selectable'
+        })
+    }
+    if (board[row][column] == 'selectable') {
+        newBoard[row][column] = 'blue';
+        getDifferentColorNeighbors(row, column, newBoard, 'blue').forEach(slot => {
+            newBoard[slot.y][slot.x] = 'blue';
+        });
+    }
+    return newBoard;
 }
 
