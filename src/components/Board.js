@@ -28,9 +28,12 @@ const Board = () => {
                                             setGameOver(isGameOver(newBoard));
                                             if (!gameOver && gameBoard[index][colIndex] === 'selectable') {
                                                 setAITurn(true);
-                                                let boardAfterAITurn;
+                                                const aiturns = ['green', 'red', 'brown']
+                                                let boardAfterAITurn = newBoard;
                                                 do {
-                                                    boardAfterAITurn = makeAIMove(newBoard);
+                                                    aiturns.forEach(color => {
+                                                        boardAfterAITurn = makeAIMove(boardAfterAITurn, color);
+                                                    })
                                                 } while (!isGameOver(boardAfterAITurn) && !canPlayerMove(boardAfterAITurn));
                                                 setGameOver(isGameOver(boardAfterAITurn));
                                                 setGameBoard(boardAfterAITurn);
@@ -63,6 +66,8 @@ const Square = {
 
 const SquareBlue = Object.assign({}, Square, {backgroundColor: COLORS.blue});
 const SquareRed = Object.assign({}, Square, {backgroundColor: COLORS.red});
+const SquareGreen = Object.assign({}, Square, {backgroundColor: COLORS.green});
+const SquareBrown = Object.assign({}, Square, {backgroundColor: COLORS.brown});
 const SquareSelectable = Object.assign({}, Square, {backgroundColor: COLORS.lightblue})
 
 const styles = StyleSheet.create({
@@ -79,9 +84,11 @@ const styles = StyleSheet.create({
     Square,
     SquareBlue,
     SquareRed,
+    SquareGreen,
+    SquareBrown,
     SquareSelectable
 });
 
-const colorSquareMap = {blue: styles.SquareBlue, red: styles.SquareRed, none: styles.Square, selectable: styles.SquareSelectable};
+const colorSquareMap = {blue: styles.SquareBlue, red: styles.SquareRed, none: styles.Square, selectable: styles.SquareSelectable, green: styles.SquareGreen, brown: styles.SquareBrown};
 
 export default Board;

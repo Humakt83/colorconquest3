@@ -16,6 +16,12 @@ export function buildBoard() {
     board[ROWS-1][COLUMNS-1] = 'red';
     board[ROWS-2][COLUMNS-1] = 'red';
     board[ROWS-1][COLUMNS-2] = 'red';
+    board[0][COLUMNS-1] = 'green';
+    board[1][COLUMNS-1] = 'green';
+    board[0][COLUMNS-2] = 'green';
+    board[ROWS-1][0] = 'brown';
+    board[ROWS-2][0] = 'brown';
+    board[ROWS-1][1] = 'brown';
     return board;
 }
 
@@ -92,17 +98,17 @@ export function canPlayerMove(board) {
     return getSlotsByType(board, 'blue').map(slot => getMovableSlots(slot.y, slot.x, board)).flat().length > 0;
 }
 
-export function makeAIMove(board) {
+export function makeAIMove(board, color) {
     const newBoard = [...board];
-    const aiSlots = getSlotsByType(board, 'red');
+    const aiSlots = getSlotsByType(board, color);
     const moves = aiSlots.map(slot => getMovableSlots(slot.y, slot.x, board)).flat();
     if (moves.length < 1) {
         return newBoard;
     }
     const moveToMake = moves[Math.floor(Math.random() * moves.length)];
-    newBoard[moveToMake.y][moveToMake.x] = 'red';
-    getDifferentColorNeighbors(moveToMake.y, moveToMake.x, newBoard, 'red').forEach(slot => {
-        newBoard[slot.y][slot.x] = 'red';
+    newBoard[moveToMake.y][moveToMake.x] = color;
+    getDifferentColorNeighbors(moveToMake.y, moveToMake.x, newBoard, color).forEach(slot => {
+        newBoard[slot.y][slot.x] = color;
     });
     return newBoard;
 }
