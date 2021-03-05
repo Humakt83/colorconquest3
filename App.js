@@ -1,17 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   StatusBar,
+  Button
 } from 'react-native';
 
+import {buildBoard} from './src/conquest';
 import {COLORS} from './src/constants';
 
 import Board from './src/components/Board';
 import Title from './src/components/Title';
 
 const App: () => React$Node = () => {
+
+  const [game, setGame] = useState({board: buildBoard()});
+
   return (
     <>
       <StatusBar barStyle="dark-content" />      
@@ -20,7 +25,8 @@ const App: () => React$Node = () => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>          
-          <Board />  
+          <Board game={game}/>
+          <Button onPress={() => setGame({board: buildBoard()})} title="New Game"/>  
         </ScrollView>
       </SafeAreaView>
     </>

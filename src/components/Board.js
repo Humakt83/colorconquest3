@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {buildBoard, selectSlot, makeAIMove, isGameOver, canPlayerMove} from './../conquest';
 import {COLORS} from './../constants';
 import Status from './Status';
 
-const Board = () => {
-    const [gameBoard, setGameBoard] = useState(buildBoard());
+const Board = (props) => {
+    const [gameBoard, setGameBoard] = useState(props.game.board);
     const [isAITurn, setAITurn] = useState(false);
     const [gameOver, setGameOver] = useState(false);
+
+    useEffect(() => {
+        setGameBoard(props.game.board);
+        setAITurn(false);
+        setGameOver(false);
+    }, [props])
 
     return (
         <View>
