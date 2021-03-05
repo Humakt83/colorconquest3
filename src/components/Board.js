@@ -75,6 +75,7 @@ const SquareRed = Object.assign({}, Square, {backgroundColor: COLORS.red});
 const SquareGreen = Object.assign({}, Square, {backgroundColor: COLORS.green});
 const SquareBrown = Object.assign({}, Square, {backgroundColor: COLORS.brown});
 const SquareSelectable = Object.assign({}, Square, {backgroundColor: COLORS.lightblue})
+const SquareBlocked = Object.assign({}, Square, {backgroundColor: COLORS.lightgrey, borderColor: COLORS.lightgrey})
 
 const styles = StyleSheet.create({
     container: {
@@ -91,9 +92,18 @@ const styles = StyleSheet.create({
     SquareRed,
     SquareGreen,
     SquareBrown,
-    SquareSelectable
+    SquareSelectable,
+    SquareBlocked
 });
 
-const colorSquareMap = {blue: styles.SquareBlue, red: styles.SquareRed, none: styles.Square, selectable: styles.SquareSelectable, green: styles.SquareGreen, brown: styles.SquareBrown};
+const colorSquareMap = {
+    blue: styles.SquareBlue, 
+    red: styles.SquareRed, 
+    none: styles.Square, 
+    selectable: styles.SquareSelectable, 
+    green: styles.SquareGreen, 
+    brown: styles.SquareBrown, 
+    blocked: styles.SquareBlocked
+};
 
 export default Board;

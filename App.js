@@ -7,7 +7,7 @@ import {
   Button
 } from 'react-native';
 
-import {buildBoard} from './src/conquest';
+import {buildBoard, buildCircleBoard, buildEmptyCenterBoard} from './src/conquest';
 import {COLORS} from './src/constants';
 
 import Board from './src/components/Board';
@@ -26,7 +26,9 @@ const App: () => React$Node = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>          
           <Board game={game}/>
-          <Button onPress={() => setGame({board: buildBoard()})} title="New Game"/>  
+          <Button onPress={() => setGame({board: buildBoard()})} title="New Square Game"/> 
+          <Button onPress={() => setGame({board: buildCircleBoard()})} title="New Circle Game"/>
+          <Button onPress={() => setGame({board: buildEmptyCenterBoard()})} title="New Empty Center Game"/>  
         </ScrollView>
       </SafeAreaView>
     </>
