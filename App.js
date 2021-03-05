@@ -1,36 +1,22 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   StatusBar,
-  Text
 } from 'react-native';
 
 import {COLORS} from './src/constants';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
-
 import Board from './src/components/Board';
+import Title from './src/components/Title';
 
 const App: () => React$Node = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />      
-      <SafeAreaView>
-        <Text style={styles.title}>COLOR CONQUEST
-          <Text style={styles.titleNumber}> 3</Text>
-        </Text>
+      <SafeAreaView style={styles.body}>
+        <Title />
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>          
@@ -43,22 +29,12 @@ const App: () => React$Node = () => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: Colors.lighter,
+    backgroundColor: COLORS.lightgrey,
   },
   body: {
-    backgroundColor: Colors.white,
+    backgroundColor: COLORS.lightgrey,
+    minHeight: '100%'
   },
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: COLORS.blue,
-    textAlign: 'center'
-  },
-  titleNumber: {
-    fontSize: 30,
-    fontWeight: '700',
-    color: COLORS.red,
-  }
 });
 
 export default App;
