@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {View, StyleSheet, Text} from 'react-native';
-import {buildBoard, selectSlot, makeAIMove, isGameOver, canPlayerMove} from './../conquest';
-import {COLORS} from './../constants';
+import {View, StyleSheet} from 'react-native';
+import {selectSlot, makeAIMove, isGameOver, canPlayerMove} from './../conquest';
 import Status from './Status';
+import Square from './Square';
 
 const Board = (props) => {
     const [gameBoard, setGameBoard] = useState(props.game.board);
@@ -23,9 +23,8 @@ const Board = (props) => {
                         return (
                             <View style={styles.row} key={'row-' + index}>
                             {row.map((column, colIndex) => {
-                                const squareStyle = colorSquareMap[column];
                                 return (
-                                    <View style={squareStyle} key={'col-' + index + '-' + colIndex} onTouchStart={() => {                                    
+                                    <Square column={column} key={'col-' + index + '-' + colIndex} fireEvent={() => {
                                         if (isAITurn) {
                                             return;
                                         }
@@ -61,21 +60,7 @@ const Board = (props) => {
     );
 }
 
-const Square = {
-    width: 30,
-    height: 30,
-    backgroundColor: '#FFFFFF',
-    borderColor: '#111111',
-    borderWidth: 2,
-    margin: 1
-};
 
-const SquareBlue = Object.assign({}, Square, {backgroundColor: COLORS.blue});
-const SquareRed = Object.assign({}, Square, {backgroundColor: COLORS.red});
-const SquareGreen = Object.assign({}, Square, {backgroundColor: COLORS.green});
-const SquareBrown = Object.assign({}, Square, {backgroundColor: COLORS.brown});
-const SquareSelectable = Object.assign({}, Square, {backgroundColor: COLORS.lightblue})
-const SquareBlocked = Object.assign({}, Square, {backgroundColor: COLORS.lightgrey, borderColor: COLORS.lightgrey})
 
 const styles = StyleSheet.create({
     container: {
@@ -87,23 +72,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',        
     },
-    Square,
-    SquareBlue,
-    SquareRed,
-    SquareGreen,
-    SquareBrown,
-    SquareSelectable,
-    SquareBlocked
 });
-
-const colorSquareMap = {
-    blue: styles.SquareBlue, 
-    red: styles.SquareRed, 
-    none: styles.Square, 
-    selectable: styles.SquareSelectable, 
-    green: styles.SquareGreen, 
-    brown: styles.SquareBrown, 
-    blocked: styles.SquareBlocked
-};
 
 export default Board;
