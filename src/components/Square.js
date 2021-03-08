@@ -4,7 +4,7 @@ import {COLORS} from './../constants';
 import Animated, {
     withTiming,
     useAnimatedStyle,
-    useSharedValue
+    useSharedValue,
 } from 'react-native-reanimated';
 
 const Square = (props) => {

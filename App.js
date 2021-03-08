@@ -15,7 +15,15 @@ import Title from './src/components/Title';
 
 const App: () => React$Node = () => {
 
-  const [game, setGame] = useState({board: buildBoard()});
+  const [game, setGame] = useState(null);
+  const [isStarted, setStarted] = useState(false);
+
+  const startGame = (board) => {
+    setStarted(true);
+    setGame({board});
+  }
+
+  const board = isStarted ? <Board game={game} /> : null
 
   return (
     <>
@@ -24,11 +32,11 @@ const App: () => React$Node = () => {
         <Title />
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>          
-          <Board game={game}/>
-          <Button onPress={() => setGame({board: buildBoard()})} title="New Square Game"/> 
-          <Button onPress={() => setGame({board: buildCircleBoard()})} title="New Circle Game"/>
-          <Button onPress={() => setGame({board: buildEmptyCenterBoard()})} title="New Empty Center Game"/>  
+          style={styles.scrollView}>
+          {board}
+          <Button onPress={() => startGame(buildBoard())} title="New Square Game"/> 
+          <Button onPress={() => startGame(buildCircleBoard())} title="New Circle Game"/>
+          <Button onPress={() => startGame(buildEmptyCenterBoard())} title="New Empty Center Game"/>  
         </ScrollView>
       </SafeAreaView>
     </>
