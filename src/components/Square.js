@@ -1,11 +1,28 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useEffect} from 'react';
+import {StyleSheet} from 'react-native';
 import {COLORS} from './../constants';
+import Animated, {
+    withSpring,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated';
 
 const Square = (props) => {
 
+    const animatedStyle = useSharedValue(colorSquareMap[props.column].backgroundColor);
+
+    useEffect(() => {
+        animatedStyle.value = colorSquareMap[props.column].backgroundColor;
+    });
+
+    const changeColorStyle = useAnimatedStyle(() => {
+        return {
+            backgroundColor : withSpring(animatedStyle.value)
+        }
+    });
+
     return (
-        <View style={colorSquareMap[props.column]} onTouchStart={props.fireEvent}/>
+        <Animated.View style={[colorSquareMap[props.column], changeColorStyle]} onTouchStart={props.fireEvent}/>
     )
 }
 
