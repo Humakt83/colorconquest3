@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {COLORS} from './../constants';
 import Animated, {
-    withSpring,
+    withTiming,
     useAnimatedStyle,
     useSharedValue
 } from 'react-native-reanimated';
@@ -17,7 +17,7 @@ const Square = (props) => {
 
     const changeColorStyle = useAnimatedStyle(() => {
         return {
-            backgroundColor : withSpring(animatedStyle.value)
+            backgroundColor : withTiming(animatedStyle.value)
         }
     });
 
