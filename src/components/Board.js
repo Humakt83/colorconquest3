@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        transform: [{translateX: -50}]
+        marginTop: 5
     },
     row: {
         flex: 1,
