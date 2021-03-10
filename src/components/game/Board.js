@@ -7,6 +7,9 @@ import Animated, {useAnimatedStyle, withSpring, withSequence, useSharedValue} fr
 import {commonStyles} from '../common';
 import {AI_TURN_ORDER} from '../../constants';
 
+const AI_DELAY = 100;
+let aiTimer;
+
 const Board = ({navigation, route}) => {
     const [gameBoard, setGameBoard] = useState(route.params.board);
     const [isAITurn, setAITurn] = useState(false);
@@ -22,6 +25,7 @@ const Board = ({navigation, route}) => {
         setGameBoard(route.params.board);
         setAITurn(false);
         setGameOver(false);
+        return () => clearTimeout(aiTimer);
     }, [route.params.board]);
 
     const initAnimationStyle = useAnimatedStyle(() => {
@@ -29,6 +33,20 @@ const Board = ({navigation, route}) => {
             transform: [{rotateZ: `${rotation.value}deg`}]
         }
     });
+
+    const playAITurn = (activeAIPlayer, boardAfterAITurn) => {
+        aiTimer = setTimeout(() => {
+            boardAfterAITurn = makeAIMove(boardAfterAITurn, AI_TURN_ORDER[activeAIPlayer].color);
+            setGameOver(isGameOver(boardAfterAITurn));
+            setGameBoard(boardAfterAITurn);
+            if (!isGameOver(boardAfterAITurn) && !(activeAIPlayer === 2 && canPlayerMove(boardAfterAITurn))) {
+                activeAIPlayer = activeAIPlayer > 2 ? 0 : activeAIPlayer + 1;
+                playAITurn(activeAIPlayer, boardAfterAITurn);
+            } else {
+                setAITurn(false);
+            }
+        }, AI_DELAY);                   
+    }
 
     return (
         <SafeAreaView style={commonStyles.body}>
@@ -50,16 +68,8 @@ const Board = ({navigation, route}) => {
                                             if (!!newBoard) {
                                                 setGameOver(isGameOver(newBoard));
                                                 if (!gameOver && gameBoard[index][colIndex] === 'selectable') {
-                                                    setAITurn(true);
-                                                    let boardAfterAITurn = newBoard;
-                                                    do {
-                                                        AI_TURN_ORDER.forEach(player => {
-                                                            boardAfterAITurn = makeAIMove(boardAfterAITurn, player.color);
-                                                        })
-                                                    } while (!isGameOver(boardAfterAITurn) && !canPlayerMove(boardAfterAITurn));
-                                                    setGameOver(isGameOver(boardAfterAITurn));
-                                                    setGameBoard(boardAfterAITurn);
-                                                    setAITurn(false);
+                                                    setAITurn(true);                                                    
+                                                    playAITurn(0, newBoard)
                                                 } else {
                                                     setGameBoard(newBoard);
                                                 }
