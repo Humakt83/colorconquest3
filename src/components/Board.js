@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {View, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
+import {View, SafeAreaView, StyleSheet, ScrollView, Button} from 'react-native';
 import {selectSlot, makeAIMove, isGameOver, canPlayerMove} from './../conquest';
 import Status from './Status';
 import Square from './Square';
@@ -73,6 +73,7 @@ const Board = ({navigation, route}) => {
                     }
                 </Animated.View>
                 <Status board={gameBoard} gameOver={gameOver} />
+                <Button onPress={() => navigation.navigate('Help')} title="Help"/>  
             </ScrollView>
         </SafeAreaView>
     );

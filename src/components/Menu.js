@@ -22,6 +22,7 @@ const Menu = ({ navigation }) => {
           <Button onPress={() => startGame(buildBoard())} title="New Square Game"/> 
           <Button onPress={() => startGame(buildCircleBoard())} title="New Circle Game"/>
           <Button onPress={() => startGame(buildEmptyCenterBoard())} title="New Empty Center Game"/>  
+          <Button onPress={() => navigation.navigate('Help')} title="Help"/>  
         </ScrollView>
     </SafeAreaView>
   );
