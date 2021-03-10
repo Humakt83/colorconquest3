@@ -5,7 +5,7 @@ import {
   Button
 } from 'react-native';
 
-import {buildBoard, buildCircleBoard, buildEmptyCenterBoard} from '../conquest';
+import {buildBoard, buildCircleBoard, buildEmptyCenterBoard} from '../logic/board';
 import {commonStyles} from './common';
 
 const Menu = ({ navigation }) => {

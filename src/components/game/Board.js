@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {View, SafeAreaView, StyleSheet, ScrollView, Button} from 'react-native';
-import {selectSlot, makeAIMove, isGameOver, canPlayerMove} from './../conquest';
+import {selectSlot, makeAIMove, isGameOver, canPlayerMove} from '../../logic/conquest';
 import Status from './Status';
 import Square from './Square';
 import Animated, {useAnimatedStyle, withSpring, withSequence, useSharedValue} from 'react-native-reanimated';
-import {commonStyles} from './common';
+import {commonStyles} from '../common';
+import {AI_TURN_ORDER} from '../../constants';
 
 const Board = ({navigation, route}) => {
     const [gameBoard, setGameBoard] = useState(route.params.board);
@@ -50,11 +51,10 @@ const Board = ({navigation, route}) => {
                                                 setGameOver(isGameOver(newBoard));
                                                 if (!gameOver && gameBoard[index][colIndex] === 'selectable') {
                                                     setAITurn(true);
-                                                    const aiturns = ['green', 'red', 'brown']
                                                     let boardAfterAITurn = newBoard;
                                                     do {
-                                                        aiturns.forEach(color => {
-                                                            boardAfterAITurn = makeAIMove(boardAfterAITurn, color);
+                                                        AI_TURN_ORDER.forEach(player => {
+                                                            boardAfterAITurn = makeAIMove(boardAfterAITurn, player.color);
                                                         })
                                                     } while (!isGameOver(boardAfterAITurn) && !canPlayerMove(boardAfterAITurn));
                                                     setGameOver(isGameOver(boardAfterAITurn));

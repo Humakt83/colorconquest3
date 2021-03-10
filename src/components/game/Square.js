@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
-import {COLORS} from './../constants';
+import {COLORS} from '../../constants';
 import Animated, {
     withTiming,
     useAnimatedStyle,

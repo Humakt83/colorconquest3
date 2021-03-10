@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Menu from './src/components/Menu';
-import Board from './src/components/Board';
+import Board from './src/components/game/Board';
 import Help from './src/components/Help';
 import {NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';

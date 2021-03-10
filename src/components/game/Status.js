@@ -1,16 +1,16 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {COLORS} from './../constants';
-import {getSlotsByType} from './../conquest';
+import {COLORS, PLAYERS} from '../../constants';
+import {getSlotsByType} from '../../logic/conquest';
 
 const Status = (props) => {
 
     const getVictor = (board) => {
         const colorMap = [
-            {name: 'Blue', color: COLORS.blue, slots: getSlotsByType(board, 'blue')},
-            {name: 'Red', color: COLORS.red, slots: getSlotsByType(board, 'red')},
-            {name: 'Brown', color: COLORS.brown, slots: getSlotsByType(board, 'brown')},
-            {name: 'Green', color: COLORS.green, slots: getSlotsByType(board, 'green')}
+            {name: PLAYERS.playerBlue.name, color: COLORS.blue, slots: getSlotsByType(board, PLAYERS.playerBlue.color)},
+            {name: PLAYERS.playerRed.name, color: COLORS.red, slots: getSlotsByType(board, PLAYERS.playerRed.color)},
+            {name: PLAYERS.playerBrown.name, color: COLORS.brown, slots: getSlotsByType(board, PLAYERS.playerBrown.color)},
+            {name: PLAYERS.playerGreen.name, color: COLORS.green, slots: getSlotsByType(board, PLAYERS.playerGreen.color)}
         ];
         const winner = colorMap.reduce((prev, next) => prev.slots > next.slots ? prev : next);
         return colorMap.filter((val) => val.slots === winner.slots).length > 1 ? 'Game Over! DRAW!' : <Text style={{color: winner.color}}>Game Over! {winner.name} is WINNER!</Text>;
