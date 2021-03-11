@@ -6,5 +6,5 @@ import Square from '../../../src/components/game/Square';
 import renderer from 'react-test-renderer';
 
 it('renders correctly', () => {
-  renderer.create(<Square />);
+  renderer.create(<Square column={'blue'}/>);
 });

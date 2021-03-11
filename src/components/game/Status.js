@@ -30,7 +30,7 @@ const Status = (props) => {
     const winner = colorMap.reduce((prev, next) =>
       prev.slots > next.slots ? prev : next,
     );
-    return colorMap.filter((val) => val.slots === winner.slots).length > 1 ? (
+    return colorMap.filter((val) => val.slots.length === winner.slots.length).length > 1 ? (
       'Game Over! DRAW!'
     ) : (
       <Text style={{color: winner.color}}>
