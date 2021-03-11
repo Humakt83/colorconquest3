@@ -1,29 +1,37 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  Button
-} from 'react-native';
+import {SafeAreaView, ScrollView, Button} from 'react-native';
 
-import {buildBoard, buildCircleBoard, buildEmptyCenterBoard} from '../logic/board';
+import {
+  buildBoard,
+  buildCircleBoard,
+  buildEmptyCenterBoard,
+} from '../logic/board';
 import {commonStyles} from './common';
 
-const Menu = ({ navigation }) => {
-
+const Menu = ({navigation}) => {
   const startGame = (board) => {
     navigation.navigate('Board', {board});
-  }
+  };
 
   return (
     <SafeAreaView style={commonStyles.body}>
-        <ScrollView
+      <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={commonStyles.scrollView}>
-          <Button onPress={() => startGame(buildBoard())} title="New Square Game"/> 
-          <Button onPress={() => startGame(buildCircleBoard())} title="New Circle Game"/>
-          <Button onPress={() => startGame(buildEmptyCenterBoard())} title="New Empty Center Game"/>  
-          <Button onPress={() => navigation.navigate('Help')} title="Help"/>  
-        </ScrollView>
+        <Button
+          onPress={() => startGame(buildBoard())}
+          title="New Square Game"
+        />
+        <Button
+          onPress={() => startGame(buildCircleBoard())}
+          title="New Circle Game"
+        />
+        <Button
+          onPress={() => startGame(buildEmptyCenterBoard())}
+          title="New Empty Center Game"
+        />
+        <Button onPress={() => navigation.navigate('Help')} title="Help" />
+      </ScrollView>
     </SafeAreaView>
   );
 };

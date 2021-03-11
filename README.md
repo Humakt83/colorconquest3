@@ -10,3 +10,7 @@ Color conquest with React-Native
 Start emulator in android studio.
 
 `npx react-native start`
+
+## Tests
+
+Run tests by executing `yarn test`
