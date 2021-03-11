@@ -57,7 +57,7 @@ const Board = ({navigation, route}) => {
         !isGameOver(boardAfterAITurn) &&
         !(activeAIPlayer === 2 && canPlayerMove(boardAfterAITurn))
       ) {
-        activeAIPlayer = activeAIPlayer > 2 ? 0 : activeAIPlayer + 1;
+        activeAIPlayer = activeAIPlayer > 1 ? 0 : activeAIPlayer + 1;
         playAITurn(activeAIPlayer, boardAfterAITurn);
       } else {
         setAITurn(false);
