@@ -26,6 +26,7 @@ const Square = (props) => {
     <Animated.View
       style={[colorSquareMap[props.column], changeColorStyle]}
       onTouchStart={props.fireEvent}
+      testID="square"
     />
   );
 };
@@ -33,7 +34,7 @@ const Square = (props) => {
 const SquareStyle = {
   width: 30,
   height: 30,
-  backgroundColor: '#FFFFFF',
+  backgroundColor: COLORS.white,
   borderColor: '#111111',
   borderWidth: 2,
   margin: 1,

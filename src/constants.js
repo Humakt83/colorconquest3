@@ -12,6 +12,7 @@ export const COLORS = {
   green: '#52FF52',
   brown: '#AA9944',
   lightgrey: '#CCCCCC',
+  white: '#FFFFFF',
 };
 
 export const AI_TURN_ORDER = [
