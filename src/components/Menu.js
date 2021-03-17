@@ -14,13 +14,15 @@ import {
   buildBoard,
   buildCircleBoard,
   buildEmptyCenterBoard,
+  buildTriangleBoard,
 } from '../logic/board';
 import {commonStyles} from './common';
 
 const BOARD_TYPES = [
   {name: 'SQUARE', createFn: buildBoard, image: require('../res/square.png')},
   {name: 'CIRCLE', createFn: buildCircleBoard, image: require('../res/circle.png')},
-  {name: 'EMPTYCENTER', createFn: buildEmptyCenterBoard, image: require('../res/emptycenter.png')}
+  {name: 'EMPTYCENTER', createFn: buildEmptyCenterBoard, image: require('../res/emptycenter.png')},
+  {name: 'TRIANGLE', createFn: buildTriangleBoard, image: require('../res/triangle.png')}
 ];
 
 const styles = StyleSheet.create({

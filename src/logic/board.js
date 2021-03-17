@@ -59,3 +59,18 @@ export function buildEmptyCenterBoard() {
   }
   return board;
 }
+
+export function buildTriangleBoard() {
+  const board = buildBoard();
+  for (let i = ROWS; i > 1; i--) {
+    for (let c = Math.floor((i/2) - 1); c >= 0; c--) {
+      board[ROWS - i][c] = 'blocked';
+      board[ROWS - i][COLUMNS - c - 1] = 'blocked';
+    }
+  }
+  board[0][COLUMNS / 2] = 'blue';
+  board[0][COLUMNS / 2 - 1] = 'blue';
+  board[ROWS/2][COLUMNS / 2] = 'green';
+  board[ROWS/2][COLUMNS / 2 - 1] = 'green';
+  return board;
+}
