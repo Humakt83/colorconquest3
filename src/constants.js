@@ -13,12 +13,17 @@ export const COLORS = {
   brown: '#AA9944',
   lightgrey: '#CCCCCC',
   white: '#FFFFFF',
+  orange: '#FFA500',
+  purple: '#800080',
 };
 
-export const AI_TURN_ORDER = [
-  PLAYERS.playerGreen,
-  PLAYERS.playerRed,
-  PLAYERS.playerBrown,
+export const PLAYER_COLORS = [
+  {name: 'blue', color: COLORS.blue},
+  {name: 'red', color: COLORS.red},
+  {name: 'green', color: COLORS.green},
+  {name: 'brown', color: COLORS.brown},
+  {name: 'orange', color: COLORS.orange},
+  {name: 'purple', color: COLORS.purple},
 ];
 
 export const ROWS = 10;

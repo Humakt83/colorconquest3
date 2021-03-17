@@ -64,11 +64,11 @@ export function getSlotsByType(board, slotType) {
   return slotsByType;
 }
 
-export function selectSlot(row, column, board) {
+export function selectSlot(row, column, board, playerColor) {
   const newBoard = [...board].map((r) =>
     r.map((c) => (c === 'selectable' ? 'none' : c)),
   );
-  if (board[row][column] === 'blue') {
+  if (board[row][column] === playerColor) {
     const slotsToMove = getMovableSlots(row, column, newBoard);
     slotsToMove.forEach((slot) => {
       newBoard[slot.y][slot.x] = 'selectable';
@@ -76,10 +76,10 @@ export function selectSlot(row, column, board) {
     return newBoard;
   }
   if (board[row][column] === 'selectable') {
-    newBoard[row][column] = 'blue';
-    getDifferentColorNeighbors(row, column, newBoard, 'blue').forEach(
+    newBoard[row][column] = playerColor;
+    getDifferentColorNeighbors(row, column, newBoard, playerColor).forEach(
       (slot) => {
-        newBoard[slot.y][slot.x] = 'blue';
+        newBoard[slot.y][slot.x] = playerColor;
       },
     );
     return newBoard;
@@ -87,9 +87,9 @@ export function selectSlot(row, column, board) {
   return undefined;
 }
 
-export function canPlayerMove(board) {
+export function canPlayerMove(board, playerColor) {
   return (
-    getSlotsByType(board, 'blue')
+    getSlotsByType(board, playerColor)
       .map((slot) => getMovableSlots(slot.y, slot.x, board))
       .flat().length > 0
   );

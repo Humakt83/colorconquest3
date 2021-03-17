@@ -1,6 +1,6 @@
 import {ROWS, COLUMNS} from '../constants';
 
-export function buildBoard() {
+export function buildBoard(colors) {
   const board = [];
   for (let y = 0; y < ROWS; y++) {
     const row = [];
@@ -9,23 +9,23 @@ export function buildBoard() {
     }
     board.push(row);
   }
-  board[0][0] = 'blue';
-  board[1][0] = 'blue';
-  board[0][1] = 'blue';
-  board[ROWS - 1][COLUMNS - 1] = 'red';
-  board[ROWS - 2][COLUMNS - 1] = 'red';
-  board[ROWS - 1][COLUMNS - 2] = 'red';
-  board[0][COLUMNS - 1] = 'green';
-  board[1][COLUMNS - 1] = 'green';
-  board[0][COLUMNS - 2] = 'green';
-  board[ROWS - 1][0] = 'brown';
-  board[ROWS - 2][0] = 'brown';
-  board[ROWS - 1][1] = 'brown';
+  board[0][0] = colors[0];
+  board[1][0] = colors[0];
+  board[0][1] = colors[0];
+  board[ROWS - 1][COLUMNS - 1] = colors[1];
+  board[ROWS - 2][COLUMNS - 1] = colors[1];
+  board[ROWS - 1][COLUMNS - 2] = colors[1];
+  board[0][COLUMNS - 1] = colors[2];
+  board[1][COLUMNS - 1] = colors[2];
+  board[0][COLUMNS - 2] = colors[2];
+  board[ROWS - 1][0] = colors[3];
+  board[ROWS - 2][0] = colors[3];
+  board[ROWS - 1][1] = colors[3];
   return board;
 }
 
-export function buildCircleBoard() {
-  const board = buildBoard();
+export function buildCircleBoard(colors) {
+  const board = buildBoard(colors);
   for (let i = COLUMNS / 2 - 1; i >= 0; i--) {
     for (let c = 0; c < i; c++) {
       board[ROWS / 2 - 1 - i][i - c - 1] = 'blocked';
@@ -34,19 +34,19 @@ export function buildCircleBoard() {
       board[ROWS / 2 + i][COLUMNS - c - 1] = 'blocked';
     }
   }
-  board[0][COLUMNS / 2] = 'blue';
-  board[0][COLUMNS / 2 - 1] = 'blue';
-  board[ROWS / 2][0] = 'brown';
-  board[ROWS / 2 - 1][0] = 'brown';
-  board[ROWS / 2][COLUMNS - 1] = 'green';
-  board[ROWS / 2 - 1][COLUMNS - 1] = 'green';
-  board[ROWS - 1][COLUMNS / 2] = 'red';
-  board[ROWS - 1][COLUMNS / 2 - 1] = 'red';
+  board[0][COLUMNS / 2] = colors[0];
+  board[0][COLUMNS / 2 - 1] = colors[0];
+  board[ROWS / 2][0] = colors[1];
+  board[ROWS / 2 - 1][0] = colors[1];
+  board[ROWS / 2][COLUMNS - 1] = colors[2];
+  board[ROWS / 2 - 1][COLUMNS - 1] = colors[2];
+  board[ROWS - 1][COLUMNS / 2] = colors[3];
+  board[ROWS - 1][COLUMNS / 2 - 1] = colors[3];
   return board;
 }
 
-export function buildEmptyCenterBoard() {
-  const board = buildBoard();
+export function buildEmptyCenterBoard(colors) {
+  const board = buildBoard(colors);
   for (let i = 2; i >= 0; i--) {
     board[ROWS / 2 - i][COLUMNS / 2 - i] = 'blocked';
     board[ROWS / 2 + i][COLUMNS / 2 + i] = 'blocked';
@@ -60,17 +60,17 @@ export function buildEmptyCenterBoard() {
   return board;
 }
 
-export function buildTriangleBoard() {
-  const board = buildBoard();
+export function buildTriangleBoard(colors) {
+  const board = buildBoard(colors);
   for (let i = ROWS; i > 1; i--) {
-    for (let c = Math.floor((i/2) - 1); c >= 0; c--) {
+    for (let c = Math.floor(i / 2 - 1); c >= 0; c--) {
       board[ROWS - i][c] = 'blocked';
       board[ROWS - i][COLUMNS - c - 1] = 'blocked';
     }
   }
-  board[0][COLUMNS / 2] = 'blue';
-  board[0][COLUMNS / 2 - 1] = 'blue';
-  board[ROWS/2][COLUMNS / 2] = 'green';
-  board[ROWS/2][COLUMNS / 2 - 1] = 'green';
+  board[0][COLUMNS / 2] = colors[0];
+  board[0][COLUMNS / 2 - 1] = colors[0];
+  board[ROWS / 2][COLUMNS / 2] = colors[2];
+  board[ROWS / 2][COLUMNS / 2 - 1] = colors[2];
   return board;
 }
