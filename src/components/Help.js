@@ -7,9 +7,9 @@ const Help = () => {
     <SafeAreaView style={commonStyles.body}>
       <Text style={styles.helpHeader}>HELP</Text>
       <Text style={styles.helpBody}>
-        Conquer the board with your blue color.{'\n'}
-        Select a square with a blue color on it and then select a highlighted
-        empty square where to move. Highlighted square will change to your blue
+        Conquer the board with color of your choice.{'\n'}
+        Select a square with your color on it and then select a highlighted
+        empty square where to move. Highlighted square will change to your 
         color as well as all non-empty squares around it.
         {'\n'}
         {'\n'}
