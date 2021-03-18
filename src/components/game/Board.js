@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react';
 import {View, SafeAreaView, StyleSheet, ScrollView, Button} from 'react-native';
 import {
   selectSlot,
-  makeAIMove,
   isGameOver,
   canPlayerMove,
 } from '../../logic/conquest';
+import {makeAIMove, makeAIPersonalities} from '../../logic/ai';
 import Status from './Status';
 import Square from './Square';
 import Animated, {
@@ -27,6 +27,8 @@ const Board = ({navigation, route}) => {
 
   const rotation = useSharedValue(0);
 
+  const [aiPlayers, setAIPlayers] = useState(makeAIPersonalities(route.params.colors));
+
   useEffect(() => {
     rotation.value = withSequence(
       withSpring(5),
@@ -36,6 +38,7 @@ const Board = ({navigation, route}) => {
     setGameBoard(route.params.board);
     setColors(route.params.colors);
     setAITurn(false);
+    setAIPlayers(makeAIPersonalities(route.params.colors));
     setGameOver(false);
     return () => clearTimeout(aiTimer);
   }, [route.params.board, route.params.colors]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -50,18 +53,20 @@ const Board = ({navigation, route}) => {
     aiTimer = setTimeout(() => {
       boardAfterAITurn = makeAIMove(
         boardAfterAITurn,
-        colors[activeAIPlayer].name,
+        aiPlayers[activeAIPlayer].name,
+        colors[0].name,
+        aiPlayers[activeAIPlayer].aiType
       );
       setGameOver(isGameOver(boardAfterAITurn));
       setGameBoard(boardAfterAITurn);
       if (
         !isGameOver(boardAfterAITurn) &&
         !(
-          activeAIPlayer === 3 &&
+          activeAIPlayer === 2 &&
           canPlayerMove(boardAfterAITurn, colors[0].name)
         )
       ) {
-        activeAIPlayer = activeAIPlayer > 2 ? 1 : activeAIPlayer + 1;
+        activeAIPlayer = activeAIPlayer > 1 ? 0 : activeAIPlayer + 1;
         playAITurn(activeAIPlayer, boardAfterAITurn);
       } else {
         setAITurn(false);
@@ -101,7 +106,7 @@ const Board = ({navigation, route}) => {
                             gameBoard[index][colIndex] === 'selectable'
                           ) {
                             setAITurn(true);
-                            playAITurn(1, newBoard);
+                            playAITurn(0, newBoard);
                           } else {
                             setGameBoard(newBoard);
                           }

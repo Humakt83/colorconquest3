@@ -14,7 +14,7 @@ const isSlotOccupiedByEnemyOrFree = (y, x, board, color) => {
 
 const isSlotFree = (y, x, board) => board[y][x] === 'none';
 
-function getMovableSlots(row, column, board) {
+export function getMovableSlots(row, column, board) {
   const slotsToMove = [];
   const possibleRowModifiers = [-2, -1, 0, 1, 2];
   const possibleColumnModifiers = [-2, -1, 0, 1, 2];
@@ -33,7 +33,7 @@ function getMovableSlots(row, column, board) {
   return slotsToMove;
 }
 
-function getDifferentColorNeighbors(row, column, board, color) {
+export function getDifferentColorNeighbors(row, column, board, color) {
   const slotsToTake = [];
   const possibleRowModifiers = [-1, 0, 1];
   const possibleColumnModifiers = [-1, 0, 1];
@@ -45,7 +45,7 @@ function getDifferentColorNeighbors(row, column, board, color) {
         isSlotPossible(modifiedY, modifiedX) &&
         isSlotOccupiedByEnemyOrFree(modifiedY, modifiedX, board, color)
       ) {
-        slotsToTake.push({y: row + yModifier, x: column + xModifier});
+        slotsToTake.push({y: row + yModifier, x: column + xModifier, slot: board[modifiedY][modifiedX]});
       }
     });
   });
@@ -93,28 +93,6 @@ export function canPlayerMove(board, playerColor) {
       .map((slot) => getMovableSlots(slot.y, slot.x, board))
       .flat().length > 0
   );
-}
-
-export function makeAIMove(board, color) {
-  const newBoard = [...board];
-  const aiSlots = getSlotsByType(board, color);
-  const moves = aiSlots
-    .map((slot) => getMovableSlots(slot.y, slot.x, board))
-    .flat();
-  if (moves.length < 1) {
-    return newBoard;
-  }
-  const moveToMake = moves[Math.floor(Math.random() * moves.length)];
-  newBoard[moveToMake.y][moveToMake.x] = color;
-  getDifferentColorNeighbors(
-    moveToMake.y,
-    moveToMake.x,
-    newBoard,
-    color,
-  ).forEach((slot) => {
-    newBoard[slot.y][slot.x] = color;
-  });
-  return newBoard;
 }
 
 export function isGameOver(board) {
