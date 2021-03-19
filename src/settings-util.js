@@ -21,7 +21,6 @@ export const SettingsBus = {
     }
   },
   dispatch: function(event, value) {
-    console.log(this.listeners);
     this.listeners.forEach((listener) => listener.fn(event, value));
   },
   remove: function(listener) {

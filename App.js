@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import Menu from './src/components/Menu';
 import Board from './src/components/game/Board';
@@ -16,10 +16,17 @@ const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
 
+  let subscribedToMusic = null;
+
   const playMusic = (play) => {
-    if (play) {
-      SoundPlayer.playSoundFile('colors', 'wav');
+    if (play) {      
+      const musicOn = () => SoundPlayer.playSoundFile('colors', 'wav');
+      subscribedToMusic = SoundPlayer.addEventListener('FinishedPlaying', musicOn)
+      musicOn();
     } else {
+      if (subscribedToMusic) {
+        subscribedToMusic.remove();
+      }
       SoundPlayer.stop();
     }    
   }
@@ -30,9 +37,7 @@ const App: () => React$Node = () => {
     }
   })
 
-  useEffect(() => {
-    readSettings(SETTINGS_MUSIC_KEY, playMusic);
-  }, []);
+  readSettings(SETTINGS_MUSIC_KEY, playMusic);
 
   const options = {headerTitle: () => <Title />};
 

@@ -13,14 +13,16 @@ const Settings = () => {
   }, [])  
 
   const musicOnOff = async () => {
-    togglePlay(!playing);
+    const musicOn = !playing;
+    togglePlay(musicOn);
     try {
-      await AsyncStorage.setItem(SETTINGS_MUSIC_KEY, JSON.stringify(playing));
+      console.log(JSON.stringify(musicOn));
+      await AsyncStorage.setItem(SETTINGS_MUSIC_KEY, JSON.stringify(musicOn));
     } catch (e) {
       console.log('Unable to store settings data');
       console.log(e);
     }
-    SettingsBus.dispatch(EVENT_MUSIC, playing);
+    SettingsBus.dispatch(EVENT_MUSIC, musicOn);
   }
 
   return (
