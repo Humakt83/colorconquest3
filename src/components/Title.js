@@ -1,8 +1,9 @@
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
-import {COLORS} from './../constants';
+import {COLORS} from '../constants';
 
 const Title = () => {
+
   return (
     <Text style={styles.title}>
       COLOR CONQUEST

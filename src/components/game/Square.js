@@ -16,7 +16,7 @@ const Square = (props) => {
     borderWidth: 2,
     margin: 1,
   };
-
+  // use styled components
   const SquareBlue = Object.assign({}, SquareStyle, {
     backgroundColor: COLORS.blue,
   });
