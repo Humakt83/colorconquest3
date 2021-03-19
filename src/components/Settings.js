@@ -16,7 +16,6 @@ const Settings = () => {
     const musicOn = !playing;
     togglePlay(musicOn);
     try {
-      console.log(JSON.stringify(musicOn));
       await AsyncStorage.setItem(SETTINGS_MUSIC_KEY, JSON.stringify(musicOn));
     } catch (e) {
       console.log('Unable to store settings data');
