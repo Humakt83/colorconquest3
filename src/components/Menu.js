@@ -3,13 +3,13 @@ import {
   SafeAreaView,
   View,
   ScrollView,
-  Button,
   TouchableOpacity,
   StyleSheet,
   Image,
   Text,
 } from 'react-native';
 import {COLORS, PLAYER_COLORS} from '../constants';
+import GradientButton from './common/GradientButton'
 
 import {
   buildBoard,
@@ -51,7 +51,7 @@ const COLOR_BUTTONS = PLAYER_COLORS.map((color) => {
     backgroundColor: color.color,
     borderWidth: 2,
     borderColor: COLORS.lightgrey,
-    padding: 10,
+    padding: 14,
   });
   return Object.assign({}, color, {style: style});
 });
@@ -115,12 +115,14 @@ const Menu = ({navigation}) => {
             );
           })}
         </View>
-        <Button onPress={() => startGame()} title="Start Game" />
-        <Button
-          onPress={() => navigation.navigate('Settings')}
-          title="Settings"
-        />
-        <Button onPress={() => navigation.navigate('Help')} title="Help" />
+        <View style={styles.navigationButtons}>
+          <GradientButton onPress={() => startGame()} title="Start Game" style={styles.navigationButton}/>
+          <GradientButton
+            onPress={() => navigation.navigate('Settings')}
+            title="Settings"
+          />
+          <GradientButton onPress={() => navigation.navigate('Help')} title="Help" />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -144,8 +146,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.green,
   },
   image: {
-    width: 25,
-    height: 25,
+    width: 29,
+    height: 29,
+  },
+  navigationButtons: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    height: 150
   },
 });
 

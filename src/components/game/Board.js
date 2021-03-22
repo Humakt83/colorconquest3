@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {View, SafeAreaView, StyleSheet, ScrollView, Button, Dimensions} from 'react-native';
+import {View, SafeAreaView, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import GradientButton from '../common/GradientButton';
 import {selectSlot, isGameOver, canPlayerMove} from '../../logic/conquest';
 import {makeAIMove, makeAIPersonalities} from '../../logic/ai';
 import Status from './Status';
@@ -145,13 +146,13 @@ const Board = ({navigation, route}) => {
               );
             })}
           </Animated.View>
-          <View>
+          <View style={styles.statusAndButtons}>
             <Status board={gameBoard} gameOver={gameOver} colors={colors} />
-            <Button
+            <GradientButton
               onPress={() => navigation.navigate('Settings')}
               title="Settings"
             />
-            <Button onPress={() => navigation.navigate('Help')} title="Help" />
+            <GradientButton onPress={() => navigation.navigate('Help')} title="Help" />
           </View>
         </View>
       </ScrollView>
@@ -179,6 +180,13 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start'
   },
+  statusAndButtons: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    height: 180
+  }
 });
 
 export default Board;

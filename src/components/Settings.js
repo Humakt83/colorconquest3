@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, Button, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import GradientButton from './common/GradientButton'
 import {commonStyles} from './common';
 import {COLORS} from '../constants';
 import {
@@ -36,22 +37,22 @@ const Settings = () => {
   };
 
   return (
-    <SafeAreaView style={commonStyles.body}>
+    <SafeAreaView style={[commonStyles.body, styles.center]}>
       <Text style={styles.header}>SETTINGS</Text>
-      <Button title={playing ? 'Music Off' : 'Music On'} onPress={musicOnOff} />
+      <GradientButton title={playing ? 'Music Off' : 'Music On'} onPress={musicOnOff} />
       <Text style={styles.speedSetting}>SPEED</Text>
       <View style={styles.speedContainer}>
-        <Button
+        <GradientButton
           title="SLOW"
           disabled={speed === SPEED.slow}
           onPress={() => changeSpeed(SPEED.slow)}
         />
-        <Button
+        <GradientButton
           title="MEDIUM"
           disabled={speed === SPEED.medium}
           onPress={() => changeSpeed(SPEED.medium)}
         />
-        <Button
+        <GradientButton
           title="FAST"
           disabled={speed === SPEED.fast}
           onPress={() => changeSpeed(SPEED.fast)}
@@ -62,19 +63,32 @@ const Settings = () => {
 };
 
 const styles = StyleSheet.create({
+  center: {
+    display: 'flex',
+    textAlign: 'center',
+    alignItems: 'center'
+  },
   speedContainer: {
+    width: 400,
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'space-evenly'
   },
   header: {
     textAlign: 'center',
     fontWeight: '700',
     fontSize: 28,
+    marginBottom: 15
   },
   speedSetting: {
-    borderTopWidth: 2,
+    width: 300,
+    borderTopWidth: 4,
     borderTopColor: COLORS.white,
-    marginTop: 5,
+    marginTop: 15,
+    textAlign: 'center',
+    paddingTop: 15,
+    marginBottom: 8,
+    fontWeight: '700'
   },
 });
 
