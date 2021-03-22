@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {COLORS} from '../../constants';
+
 import Animated, {
   withTiming,
   useAnimatedStyle,
@@ -16,33 +17,33 @@ const Square = (props) => {
     borderWidth: 2,
     margin: 1,
   };
-  // use styled components
-  const SquareBlue = Object.assign({}, SquareStyle, {
+
+  const SquareBlue = {
     backgroundColor: COLORS.blue,
-  });
-  const SquareRed = Object.assign({}, SquareStyle, {
+  };
+  const SquareRed = {
     backgroundColor: COLORS.red,
-  });
-  const SquareGreen = Object.assign({}, SquareStyle, {
+  };
+  const SquareGreen = {
     backgroundColor: COLORS.green,
-  });
-  const SquareBrown = Object.assign({}, SquareStyle, {
+  };
+  const SquareBrown = {
     backgroundColor: COLORS.brown,
-  });
-  const SquarePurple = Object.assign({}, SquareStyle, {
+  };
+  const SquarePurple = {
     backgroundColor: COLORS.purple,
-  });
-  const SquareOrange = Object.assign({}, SquareStyle, {
+  };
+  const SquareOrange = {
     backgroundColor: COLORS.orange,
-  });
-  const SquareSelectable = Object.assign({}, SquareStyle, {
+  };
+  const SquareSelectable = {
     backgroundColor: props.playerColor,
     opacity: 0.4,
-  });
-  const SquareBlocked = Object.assign({}, SquareStyle, {
+  };
+  const SquareBlocked = {
     backgroundColor: COLORS.lightgrey,
     borderColor: COLORS.lightgrey,
-  });
+  };
 
   const styles = StyleSheet.create({
     SquareStyle,
@@ -84,7 +85,11 @@ const Square = (props) => {
 
   return (
     <Animated.View
-      style={[colorSquareMap[props.column], changeColorStyle]}
+      style={[
+        styles.SquareStyle,
+        colorSquareMap[props.column],
+        changeColorStyle,
+      ]}
       onTouchStart={props.fireEvent}
       testID="square"
     />
