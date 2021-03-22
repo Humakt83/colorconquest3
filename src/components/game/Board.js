@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, SafeAreaView, StyleSheet, ScrollView, Button} from 'react-native';
+import {View, SafeAreaView, StyleSheet, ScrollView, Button, Dimensions} from 'react-native';
 import {selectSlot, isGameOver, canPlayerMove} from '../../logic/conquest';
 import {makeAIMove, makeAIPersonalities} from '../../logic/ai';
 import Status from './Status';
@@ -27,6 +27,7 @@ const Board = ({navigation, route}) => {
   const [isAITurn, setAITurn] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const rotation = useSharedValue(0);
+  const [containerLayoutStyle, setContainerLayoutStyle] = useState(styles.container);
 
   const [speed, setSpeed] = useState(SPEED.medium);
 
@@ -90,71 +91,93 @@ const Board = ({navigation, route}) => {
     }, speed);
   };
 
+  const changeContainerStyle = () => {
+    const {width, height} = Dimensions.get('window');
+    if (width > height) {
+      setContainerLayoutStyle(styles.containerLandscape);
+    } else {
+      setContainerLayoutStyle(styles.container);
+    }
+  }
+
   return (
-    <SafeAreaView style={commonStyles.body}>
+    <SafeAreaView style={commonStyles.body} onLayout={changeContainerStyle}>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={commonStyles.scrollView}>
-        <Animated.View style={[styles.container, initAnimationStyle]}>
-          {gameBoard.map((row, index) => {
-            return (
-              <View style={styles.row} key={'row-' + index}>
-                {row.map((column, colIndex) => {
-                  return (
-                    <Square
-                      column={column}
-                      playerColor={colors[0].color}
-                      key={'col-' + index + '-' + colIndex}
-                      fireEvent={() => {
-                        if (isAITurn) {
-                          return;
-                        }
-                        const newBoard = selectSlot(
-                          index,
-                          colIndex,
-                          gameBoard,
-                          colors[0].name,
-                        );
-                        if (newBoard) {
-                          setGameOver(isGameOver(newBoard));
-                          setGameBoard(newBoard);
-                          if (
-                            !gameOver &&
-                            gameBoard[index][colIndex] === 'selectable'
-                          ) {
-                            setAITurn(true);
-                            playAITurn(0, newBoard);
+        <View style={containerLayoutStyle}>
+          <Animated.View style={[styles.boardContainer, initAnimationStyle]}>
+            {gameBoard.map((row, index) => {
+              return (
+                <View style={styles.row} key={'row-' + index}>
+                  {row.map((column, colIndex) => {
+                    return (
+                      <Square
+                        column={column}
+                        playerColor={colors[0].color}
+                        key={'col-' + index + '-' + colIndex}
+                        fireEvent={() => {
+                          if (isAITurn) {
+                            return;
                           }
-                        }
-                      }}
-                    />
-                  );
-                })}
-              </View>
-            );
-          })}
-        </Animated.View>
-        <Status board={gameBoard} gameOver={gameOver} colors={colors} />
-        <Button
-          onPress={() => navigation.navigate('Settings')}
-          title="Settings"
-        />
-        <Button onPress={() => navigation.navigate('Help')} title="Help" />
+                          const newBoard = selectSlot(
+                            index,
+                            colIndex,
+                            gameBoard,
+                            colors[0].name,
+                          );
+                          if (newBoard) {
+                            setGameOver(isGameOver(newBoard));
+                            setGameBoard(newBoard);
+                            if (
+                              !gameOver &&
+                              gameBoard[index][colIndex] === 'selectable'
+                            ) {
+                              setAITurn(true);
+                              playAITurn(0, newBoard);
+                            }
+                          }
+                        }}
+                      />
+                    );
+                  })}
+                </View>
+              );
+            })}
+          </Animated.View>
+          <View>
+            <Status board={gameBoard} gameOver={gameOver} colors={colors} />
+            <Button
+              onPress={() => navigation.navigate('Settings')}
+              title="Settings"
+            />
+            <Button onPress={() => navigation.navigate('Help')} title="Help" />
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  boardContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 5,
   },
+  container: {
+    flex: 0,
+  },
+  containerLandscape: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   row: {
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start'
   },
 });
 

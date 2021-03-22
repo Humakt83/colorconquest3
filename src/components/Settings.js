@@ -14,7 +14,7 @@ import {
 } from '../settings-util';
 
 const Settings = () => {
-  const [playing, togglePlay] = useState(true);
+  const [playing, togglePlay] = useState(false);
   const [speed, setSpeed] = useState(SPEED.medium);
 
   useEffect(() => {
