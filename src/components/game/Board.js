@@ -1,10 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, SafeAreaView, StyleSheet, ScrollView, Button} from 'react-native';
-import {
-  selectSlot,
-  isGameOver,
-  canPlayerMove,
-} from '../../logic/conquest';
+import {selectSlot, isGameOver, canPlayerMove} from '../../logic/conquest';
 import {makeAIMove, makeAIPersonalities} from '../../logic/ai';
 import Status from './Status';
 import Square from './Square';
@@ -15,8 +11,14 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import {commonStyles} from '../common';
+import {
+  SPEED,
+  SettingsBus,
+  readSettings,
+  SETTINGS_SPEED_KEY,
+  EVENT_SPEED,
+} from '../../settings-util';
 
-const AI_DELAY = 100;
 let aiTimer;
 
 const Board = ({navigation, route}) => {
@@ -24,10 +26,13 @@ const Board = ({navigation, route}) => {
   const [colors, setColors] = useState(route.params.colors);
   const [isAITurn, setAITurn] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-
   const rotation = useSharedValue(0);
 
-  const [aiPlayers, setAIPlayers] = useState(makeAIPersonalities(route.params.colors));
+  const [speed, setSpeed] = useState(SPEED.medium);
+
+  const [aiPlayers, setAIPlayers] = useState(
+    makeAIPersonalities(route.params.colors),
+  );
 
   useEffect(() => {
     rotation.value = withSequence(
@@ -43,11 +48,22 @@ const Board = ({navigation, route}) => {
     return () => clearTimeout(aiTimer);
   }, [route.params.board, route.params.colors]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    SettingsBus.listen('Speed', (event, value) => {
+      if (event === EVENT_SPEED) {
+        setSpeed(value);
+      }
+    });
+    return () => SettingsBus.remove('Speed');
+  }, []);
+
   const initAnimationStyle = useAnimatedStyle(() => {
     return {
       transform: [{rotateZ: `${rotation.value}deg`}],
     };
   });
+
+  readSettings(SETTINGS_SPEED_KEY, setSpeed);
 
   const playAITurn = (activeAIPlayer, boardAfterAITurn) => {
     aiTimer = setTimeout(() => {
@@ -55,7 +71,7 @@ const Board = ({navigation, route}) => {
         boardAfterAITurn,
         aiPlayers[activeAIPlayer].name,
         colors[0].name,
-        aiPlayers[activeAIPlayer].aiType
+        aiPlayers[activeAIPlayer].aiType,
       );
       setGameOver(isGameOver(boardAfterAITurn));
       setGameBoard(boardAfterAITurn);
@@ -71,7 +87,7 @@ const Board = ({navigation, route}) => {
       } else {
         setAITurn(false);
       }
-    }, AI_DELAY);
+    }, speed);
   };
 
   return (
@@ -101,14 +117,13 @@ const Board = ({navigation, route}) => {
                         );
                         if (newBoard) {
                           setGameOver(isGameOver(newBoard));
+                          setGameBoard(newBoard);
                           if (
                             !gameOver &&
                             gameBoard[index][colIndex] === 'selectable'
                           ) {
                             setAITurn(true);
                             playAITurn(0, newBoard);
-                          } else {
-                            setGameBoard(newBoard);
                           }
                         }
                       }}
@@ -120,6 +135,10 @@ const Board = ({navigation, route}) => {
           })}
         </Animated.View>
         <Status board={gameBoard} gameOver={gameOver} colors={colors} />
+        <Button
+          onPress={() => navigation.navigate('Settings')}
+          title="Settings"
+        />
         <Button onPress={() => navigation.navigate('Help')} title="Help" />
       </ScrollView>
     </SafeAreaView>

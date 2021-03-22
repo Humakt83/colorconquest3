@@ -116,7 +116,10 @@ const Menu = ({navigation}) => {
           })}
         </View>
         <Button onPress={() => startGame()} title="Start Game" />
-        <Button onPress={() => navigation.navigate('Settings')} title="Settings" />
+        <Button
+          onPress={() => navigation.navigate('Settings')}
+          title="Settings"
+        />
         <Button onPress={() => navigation.navigate('Help')} title="Help" />
       </ScrollView>
     </SafeAreaView>

@@ -9,36 +9,46 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {AppState} from 'react-native';
 
 import SoundPlayer from 'react-native-sound-player';
-import {SettingsBus, EVENT_MUSIC, readSettings, SETTINGS_MUSIC_KEY} from './src/settings-util'
+import {
+  SettingsBus,
+  EVENT_MUSIC,
+  readSettings,
+  SETTINGS_MUSIC_KEY,
+} from './src/settings-util';
 
 import Title from './src/components/Title';
 
 const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
-
   const appState = useRef(AppState.currentState);
 
   let subscribedToMusic = null;
 
   const playMusic = (play) => {
-    if (play) {      
+    if (play) {
       const musicOn = () => SoundPlayer.playSoundFile('colors', 'wav');
-      subscribedToMusic = SoundPlayer.addEventListener('FinishedPlaying', musicOn)
+      subscribedToMusic = SoundPlayer.addEventListener(
+        'FinishedPlaying',
+        musicOn,
+      );
       musicOn();
     } else {
       if (subscribedToMusic) {
         subscribedToMusic.remove();
       }
       SoundPlayer.stop();
-    }    
-  }
-
-  SettingsBus.listen('Music', (event, value) => {
-    if (event === EVENT_MUSIC) {
-      playMusic(value);
     }
-  })
+  };
+
+  useEffect(() => {
+    SettingsBus.listen('Music', (event, value) => {
+      if (event === EVENT_MUSIC) {
+        playMusic(value);
+      }
+    });
+    return () => SettingsBus.remove('Music');
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   readSettings(SETTINGS_MUSIC_KEY, playMusic);
 
@@ -46,17 +56,23 @@ const App: () => React$Node = () => {
     AppState.addEventListener('change', handleAppStateChange);
     return () => {
       AppState.removeEventListener('change', handleAppStateChange);
-    }
+    };
   });
 
   const handleAppStateChange = (nextAppState) => {
-    if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === 'active'
+    ) {
       readSettings(SETTINGS_MUSIC_KEY, playMusic);
-    } else if (appState.current === 'active' && nextAppState.match(/inactive|background/)) {
+    } else if (
+      appState.current === 'active' &&
+      nextAppState.match(/inactive|background/)
+    ) {
       playMusic(false);
     }
     appState.current = nextAppState;
-  }
+  };
 
   const options = {headerTitle: () => <Title />};
 

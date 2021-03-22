@@ -9,8 +9,8 @@ const Help = () => {
       <Text style={styles.helpBody}>
         Conquer the board with color of your choice.{'\n'}
         Select a square with your color on it and then select a highlighted
-        empty square where to move. Highlighted square will change to your 
-        color as well as all non-empty squares around it.
+        empty square where to move. Highlighted square will change to your as
+        well as all non-empty squares around it.
         {'\n'}
         {'\n'}
         Game is turn-based and computer players then make a move. Game ends when

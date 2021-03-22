@@ -45,7 +45,11 @@ export function getDifferentColorNeighbors(row, column, board, color) {
         isSlotPossible(modifiedY, modifiedX) &&
         isSlotOccupiedByEnemyOrFree(modifiedY, modifiedX, board, color)
       ) {
-        slotsToTake.push({y: row + yModifier, x: column + xModifier, slot: board[modifiedY][modifiedX]});
+        slotsToTake.push({
+          y: row + yModifier,
+          x: column + xModifier,
+          slot: board[modifiedY][modifiedX],
+        });
       }
     });
   });

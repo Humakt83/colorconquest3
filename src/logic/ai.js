@@ -1,4 +1,8 @@
-import {getSlotsByType, getMovableSlots, getDifferentColorNeighbors} from './conquest';
+import {
+  getSlotsByType,
+  getMovableSlots,
+  getDifferentColorNeighbors,
+} from './conquest';
 
 const RANDOM_AI = 'RANDOM';
 const SOPHISTICATED_AI = 'SOPHISTICATED';
@@ -6,24 +10,19 @@ const EVIL_AI = 'EVIL';
 
 const getPossibleMoves = (board, color) => {
   const aiSlots = getSlotsByType(board, color);
-  return aiSlots
-    .map((slot) => getMovableSlots(slot.y, slot.x, board))
-    .flat();
-}
+  return aiSlots.map((slot) => getMovableSlots(slot.y, slot.x, board)).flat();
+};
 
 const makeRandomMove = (board, color, moves) => {
   const moveToMake = moves[Math.floor(Math.random() * moves.length)];
   board[moveToMake.y][moveToMake.x] = color;
-  getDifferentColorNeighbors(
-    moveToMake.y,
-    moveToMake.x,
-    board,
-    color,
-  ).forEach((slot) => {
-    board[slot.y][slot.x] = color;
-  });
+  getDifferentColorNeighbors(moveToMake.y, moveToMake.x, board, color).forEach(
+    (slot) => {
+      board[slot.y][slot.x] = color;
+    },
+  );
   return board;
-}
+};
 
 const movesWithMostImpact = (moves) => {
   return moves.reduce((a, b) => {
@@ -35,7 +34,7 @@ const movesWithMostImpact = (moves) => {
     }
     return a;
   }, []);
-}
+};
 
 function makeRandomAIMove(board, color) {
   const newBoard = [...board];
@@ -61,7 +60,11 @@ function makeSmartAIMove(board, color) {
     );
     return Object.assign({}, move, {amount: amountOfNeighbors.length});
   });
-  return makeRandomMove(newBoard, color, movesWithMostImpact(movesWithAmountsChanged));
+  return makeRandomMove(
+    newBoard,
+    color,
+    movesWithMostImpact(movesWithAmountsChanged),
+  );
 }
 
 function makeEvilAIMove(board, color, playerColor) {
@@ -77,14 +80,20 @@ function makeEvilAIMove(board, color, playerColor) {
       board,
       color,
     );
-    const playerAmount = amountOfNeighbors.filter((neighbor) => neighbor.slot === playerColor).length
+    const playerAmount = amountOfNeighbors.filter(
+      (neighbor) => neighbor.slot === playerColor,
+    ).length;
     return Object.assign({}, move, {amount: playerAmount});
   });
-  return makeRandomMove(newBoard, color, movesWithMostImpact(movesWithAmountsChanged));
+  return makeRandomMove(
+    newBoard,
+    color,
+    movesWithMostImpact(movesWithAmountsChanged),
+  );
 }
 
 export function makeAIMove(board, color, playerColor, aiType) {
-  switch(aiType) {
+  switch (aiType) {
     case EVIL_AI: {
       return makeEvilAIMove(board, color, playerColor);
     }
@@ -98,7 +107,7 @@ export function makeAIMove(board, color, playerColor, aiType) {
 
 export function makeAIPersonalities(playerColors) {
   let aiColors = playerColors.slice(1);
-  aiColors.forEach((color) => color.aiType = RANDOM_AI);
+  aiColors.forEach((color) => (color.aiType = RANDOM_AI));
   aiColors[Math.floor(Math.random() * aiColors.length)].aiType = EVIL_AI;
   while (!aiColors.find((color) => color.aiType === SOPHISTICATED_AI)) {
     const random = Math.floor(Math.random() * aiColors.length);
