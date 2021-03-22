@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, SafeAreaView, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 import GradientButton from '../common/GradientButton';
 import {selectSlot, isGameOver, canPlayerMove} from '../../logic/conquest';
 import {makeAIMove, makeAIPersonalities} from '../../logic/ai';
@@ -28,7 +34,9 @@ const Board = ({navigation, route}) => {
   const [isAITurn, setAITurn] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const rotation = useSharedValue(0);
-  const [containerLayoutStyle, setContainerLayoutStyle] = useState(styles.container);
+  const [containerLayoutStyle, setContainerLayoutStyle] = useState(
+    styles.container,
+  );
 
   const [speed, setSpeed] = useState(SPEED.medium);
 
@@ -99,7 +107,7 @@ const Board = ({navigation, route}) => {
     } else {
       setContainerLayoutStyle(styles.container);
     }
-  }
+  };
 
   return (
     <SafeAreaView style={commonStyles.body} onLayout={changeContainerStyle}>
@@ -152,7 +160,10 @@ const Board = ({navigation, route}) => {
               onPress={() => navigation.navigate('Settings')}
               title="Settings"
             />
-            <GradientButton onPress={() => navigation.navigate('Help')} title="Help" />
+            <GradientButton
+              onPress={() => navigation.navigate('Help')}
+              title="Help"
+            />
           </View>
         </View>
       </ScrollView>
@@ -178,15 +189,15 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   statusAndButtons: {
-    flex: 1,
+    flex: 3,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    height: 180
-  }
+    height: 180,
+  },
 });
 
 export default Board;

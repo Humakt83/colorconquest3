@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import GradientButton from './common/GradientButton'
+import GradientButton from './common/GradientButton';
 import {commonStyles} from './common';
 import {COLORS} from '../constants';
 import {
@@ -39,7 +39,10 @@ const Settings = () => {
   return (
     <SafeAreaView style={[commonStyles.body, styles.center]}>
       <Text style={styles.header}>SETTINGS</Text>
-      <GradientButton title={playing ? 'Music Off' : 'Music On'} onPress={musicOnOff} />
+      <GradientButton
+        title={playing ? 'Music Off' : 'Music On'}
+        onPress={musicOnOff}
+      />
       <Text style={styles.speedSetting}>SPEED</Text>
       <View style={styles.speedContainer}>
         <GradientButton
@@ -66,19 +69,19 @@ const styles = StyleSheet.create({
   center: {
     display: 'flex',
     textAlign: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   speedContainer: {
     width: 400,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   header: {
     textAlign: 'center',
     fontWeight: '700',
     fontSize: 28,
-    marginBottom: 15
+    marginBottom: 15,
   },
   speedSetting: {
     width: 300,
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingTop: 15,
     marginBottom: 8,
-    fontWeight: '700'
+    fontWeight: '700',
   },
 });
 

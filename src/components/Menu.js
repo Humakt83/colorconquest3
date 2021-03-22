@@ -9,7 +9,7 @@ import {
   Text,
 } from 'react-native';
 import {COLORS, PLAYER_COLORS} from '../constants';
-import GradientButton from './common/GradientButton'
+import GradientButton from './common/GradientButton';
 
 import {
   buildBoard,
@@ -79,7 +79,7 @@ const Menu = ({navigation}) => {
         contentInsetAdjustmentBehavior="automatic"
         style={commonStyles.scrollView}>
         <View style={styles.boardContainer}>
-          <Text>SELECT COLOR</Text>
+          <Text style={styles.boldedText}>SELECT COLOR</Text>
           {COLOR_BUTTONS.map((colorButton) => {
             const style =
               selectedColor.name === colorButton.name
@@ -99,7 +99,7 @@ const Menu = ({navigation}) => {
           })}
         </View>
         <View style={styles.boardContainer}>
-          <Text>SELECT BOARD </Text>
+          <Text style={styles.boldedText}>SELECT BOARD </Text>
           {BOARD_TYPES.map((board) => {
             const style =
               board === boardType
@@ -116,12 +116,19 @@ const Menu = ({navigation}) => {
           })}
         </View>
         <View style={styles.navigationButtons}>
-          <GradientButton onPress={() => startGame()} title="Start Game" style={styles.navigationButton}/>
+          <GradientButton
+            onPress={() => startGame()}
+            title="Start Game"
+            style={styles.navigationButton}
+          />
           <GradientButton
             onPress={() => navigation.navigate('Settings')}
             title="Settings"
           />
-          <GradientButton onPress={() => navigation.navigate('Help')} title="Help" />
+          <GradientButton
+            onPress={() => navigation.navigate('Help')}
+            title="Help"
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -153,7 +160,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    height: 150
+    height: 150,
+  },
+  boldedText: {
+    fontWeight: 'bold',
   },
 });
 
